@@ -1,10 +1,12 @@
 from fastapi import FastAPI, Response, status, HTTPException
 from app.core.middlewares.security_headers import SecurityHeadersMiddleware
+from app.core.config import settings
 from app.api.v1.router import router as v1_router
 
 app = FastAPI(
     title = "FastAPI Postgres CRUD", 
-    version = "1.0.0"
+    version = "1.0.0", 
+    debug = settings.DEBUG
 )
 
 # Middlewares

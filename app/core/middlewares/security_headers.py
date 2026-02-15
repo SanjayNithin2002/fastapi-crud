@@ -1,5 +1,6 @@
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
+from app.core.config import settings
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
@@ -10,10 +11,10 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
         response.headers["server"] = "Server"
         
-        # Enable HSTS only in HTTPS production
-        # response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
-
-        # API-safe CSP
-        # response.headers["Content-Security-Policy"] = "default-src 'none'"
+        if settings.ENV == "production": 
+            # Enable HSTS only in HTTPS production
+            response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+            # API-safe CSP
+            response.headers["Content-Security-Policy"] = "default-src 'none'"
         
         return response
