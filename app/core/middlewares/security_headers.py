@@ -8,7 +8,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
-        response.headers["server", "Server"]
+        response.headers["server"] = "Server"
         
         # Enable HSTS only in HTTPS production
         # response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
