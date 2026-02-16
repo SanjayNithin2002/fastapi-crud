@@ -2,6 +2,7 @@ from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 from fastapi import HTTPException, status
 from app.schemas.users import UserPayload
+from app.core.config import settings
 
 class JWTAuth:
     def __init__(self, secret_key: str, algorithm: str = "HS256"):
@@ -9,7 +10,7 @@ class JWTAuth:
         self.algorithm = algorithm
 
     def create_access_token(self, user_payload: UserPayload, expiry_minutes: int = 60):
-        if not user_payload.sub:
+        if not user_payload.get("sub"):
             raise ValueError("JWT payload should contain sub field")
         
         now = datetime.now(timezone.utc)
@@ -19,7 +20,7 @@ class JWTAuth:
             "iss": "fastapi-crud",
             "aud": "external",
         }
-        payload = {**user_payload.model_dump(), **default_payload}
+        payload = {**user_payload, **default_payload}
         return jwt.encode(payload, self.secret_key, algorithm=self.algorithm)
 
     def decode_token(self, token: str):
@@ -36,3 +37,6 @@ class JWTAuth:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid or expired token",
             )
+            
+
+jwt_auth = JWTAuth(settings.SECRET_KEY)

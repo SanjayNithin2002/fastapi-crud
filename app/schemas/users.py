@@ -46,6 +46,13 @@ class UserRead(UserBase):
     
 
 class UserPayload(BaseModel):
-    sub: UUID
+    sub: str
     email: EmailStr
     scopes: list[str]
+    
+class UserAuthRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserAuthResponse(BaseModel):
+    token: str
