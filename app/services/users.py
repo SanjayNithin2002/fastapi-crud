@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
 
-from app.models.user import User
+from app.models.users import User
 from app.schemas.users import UserCreate
 
 def create_user(db: Session, user_in: UserCreate) -> User:

@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from sqlalchemy.orm import Session
 from uuid import UUID
-
 from app.db.database import get_db
 from app.schemas.users import (
     UserCreate,
@@ -9,10 +8,8 @@ from app.schemas.users import (
     UserAuthRequest,
     UserAuthResponse,
 )
-
 from app.api.dependencies.auth import require_scope
 from app.services.jwt_auth import jwt_auth
-
 from app.services.users import (
     create_user,
     list_users,
