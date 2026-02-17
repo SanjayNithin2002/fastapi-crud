@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, EmailStr, HttpUrl, field_validator
+from pydantic import BaseModel, Field, EmailStr, field_validator
 from datetime import datetime, timezone
 from uuid import UUID, uuid4
 
@@ -8,7 +8,7 @@ class UserBase(BaseModel):
     last_name: str = Field(min_length=1, max_length=50)
     age: int = Field(ge=0, le=120)
     email: EmailStr
-    pfp_external_link: HttpUrl | None = None
+    pfp_external_link: str | None = None
 
 
 class UserCreate(UserBase):
@@ -43,3 +43,16 @@ class UserRead(UserBase):
     id: UUID
     created_at: datetime
     model_config = {"from_attributes": True}
+    
+
+class UserPayload(BaseModel):
+    sub: str
+    email: EmailStr
+    scopes: list[str]
+    
+class UserAuthRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserAuthResponse(BaseModel):
+    token: str
