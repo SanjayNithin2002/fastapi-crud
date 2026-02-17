@@ -3,6 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     ENV: str = "development"
     DEBUG: bool = True
+    DATABASE_URL: str
 
     # Load .env only if present (local dev)
     model_config = SettingsConfigDict(
