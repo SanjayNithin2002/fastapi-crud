@@ -43,3 +43,16 @@ class UserRead(UserBase):
     id: UUID
     created_at: datetime
     model_config = {"from_attributes": True}
+    
+
+class UserPayload(BaseModel):
+    sub: str
+    email: EmailStr
+    scopes: list[str]
+    
+class UserAuthRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserAuthResponse(BaseModel):
+    token: str
